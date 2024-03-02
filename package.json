@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "bin/app.mjs",
+  "main": "app.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.3",
     "yargs": "13.2"
   }
 }

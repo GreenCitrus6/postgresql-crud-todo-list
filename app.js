@@ -4,7 +4,7 @@ import yargs from 'yargs';
 // define commands for the application
 
 const options = yargs
-    .usage("")
+    .usage("node . -n <Add new task; string> -l <List currently stored tasks; boolean> -m <Mark a task as complete or incomplete; number> -d <Delete a task from the list; number> -h <Show a list of commands the app takes with explanations; boolean> -v <Show the current version of the app; boolean>")
     .option("n", { alias: "new", describe: "Add a new task to the list", type: "string", demandOption: false })
     .option("l", { alias: "list", describe: "List all tasks on the to do list", type: "boolean", demandOption: false})
     .option("m", { alias: "mark", describe: "Mark a task as completed. Follow with task ID", type: "number", demandOption: false })

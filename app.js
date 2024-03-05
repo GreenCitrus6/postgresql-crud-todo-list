@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import yargs from 'yargs';
+import { Pool, Client } from 'pg';
 
 // define commands for the application
 
@@ -14,10 +15,17 @@ const options = yargs
     .argv;
 
 const taskList = [];
+// insert the url to your database below
+const dbUrl = "";
 
 // add new task to db
 if (options.new) {
-
+    // ensure the task name is short enough to fit in the database
+    if (options.new.length < 50) {
+        
+    } else {
+        console.log("Error, task must be less than 50 characters");
+    }
 }
 
 // list all tasks in the db

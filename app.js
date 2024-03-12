@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import yargs from 'yargs';
-import { Pool, Client } from 'pg';
+import pg from 'pg';
+const { Pool } = pg;
 
 // define commands for the application
 
@@ -15,14 +16,23 @@ const options = yargs
     .argv;
 
 const taskList = [];
-// insert the url to your database below
-const dbUrl = "";
+let taskId;
+
+const pool = new Pool({
+    user: "postgres",
+    host: "localhost",
+    database: "test",
+    password: "", //DO NOT COMMIT THIS TO GITHUB
+    port: 5432
+})
 
 // add new task to db
 if (options.new) {
     // ensure the task name is short enough to fit in the database
     if (options.new.length < 50) {
-        
+        pool.query(`INSERT INTO task_list(id,task_name,completion)values(${taskId},'${options.new}',false)`, (err,res)=> {
+            pool.end();
+        });
     } else {
         console.log("Error, task must be less than 50 characters");
     }

@@ -30,7 +30,7 @@ const pool = new Pool({
 if (options.new) {
     // ensure the task name is short enough to fit in the database
     if (options.new.length < 50) {
-        pool.query(`INSERT INTO task_list(id,task_name,completion)values(${taskId},'${options.new}',false)`, (err,res)=> {
+        pool.query(`INSERT INTO task_list(task_name,completion)values('${options.new}',false)`, (err,res)=> {
             pool.end();
         });
     } else {
@@ -40,8 +40,12 @@ if (options.new) {
 
 // list all tasks in the db
 if (options.list) {
-
-
+    if (Boolean(options.list) == true) {
+        let list = pool.query(`SELECT * FROM task_list`)
+        list.then((value) => {
+            console.log(value.rows);
+        }) //fetch all tasks from db
+    }
 }
 
 // mark a task as complete 
@@ -51,3 +55,5 @@ if (options.list) {
 // print instructions to the console
 
 // print version of the script to console
+
+//task: id, taskName, completion status

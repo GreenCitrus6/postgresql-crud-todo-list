@@ -51,6 +51,13 @@ if (options.list) {
 // mark a task as complete 
 
 // remove a task from the table
+if (options.delete) {
+    if (typeof(options.delete) == "number") {
+        pool.query(`DELETE FROM task_list WHERE id=${options.delete}`)
+    } else {
+        console.log("Error, task id must be a number")
+    }
+}
 
 // print instructions to the console
 

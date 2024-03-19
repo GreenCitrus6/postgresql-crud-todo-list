@@ -6,7 +6,7 @@ const { Pool } = pg;
 // define commands for the application
 
 const options = yargs
-    .usage("node . -n <Add new task; string> -l <List currently stored tasks; boolean> -m <Mark a task as complete or incomplete; number> -d <Delete a task from the list; number> -h <Show a list of commands the app takes with explanations; boolean> -v <Show the current version of the app; boolean>")
+    .usage("node app.js -n <Add new task; string> -l <List currently stored tasks; boolean> -m <Mark a task as complete or incomplete; number> -d <Delete a task from the list; number> -h <Show a list of commands the app takes with explanations; boolean> -v <Show the current version of the app; boolean>")
     .option("n", { alias: "new", describe: "Add a new task to the list", type: "string", demandOption: false })
     .option("l", { alias: "list", describe: "List all tasks on the to do list", type: "boolean", demandOption: false})
     .option("m", { alias: "mark", describe: "Mark a task as completed. Follow with task ID", type: "number", demandOption: false })
@@ -15,10 +15,9 @@ const options = yargs
     .option("v", { alias: "version", describe: "Print version of the application to console", type: "boolean", demandOption: false })
     .argv;
 
-const taskList = [];
-let taskId;
+const appVersion = "1.0.0";
 
-const pool = new Pool({
+const pool = new Pool({ //enter the details for your postgres database into this object
     user: "postgres",
     host: "localhost",
     database: "test",
@@ -50,17 +49,28 @@ if (options.list) {
 
 // mark a task as complete 
 
+if (options.mark) {
+    if (typeof(options.mark) == "number") {
+        pool.query(`UPDATE task_list SET completion = NOT completion WHERE id IN (${options.mark})`)
+    } else {
+        console.log("Error, task id must be a number");
+    }
+}
+
 // remove a task from the table
 if (options.delete) {
     if (typeof(options.delete) == "number") {
         pool.query(`DELETE FROM task_list WHERE id=${options.delete}`)
     } else {
-        console.log("Error, task id must be a number")
+        console.log("Error, task id must be a number");
     }
 }
 
-// print instructions to the console
-
 // print version of the script to console
+if (options.help) {
+    if (Boolean(options.version) == true) {
+        console.log(appVersion);
+    }
+}
 
 //task: id, taskName, completion status
